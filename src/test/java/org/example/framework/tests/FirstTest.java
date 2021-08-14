@@ -27,10 +27,12 @@ public class FirstTest extends BaseTest {
           // Создаем экземпляр класса Item
           Item vacuumCleaner = new Item("Пылесос-робот Xiaomi Mi Robot Vacuum Mop SKV4093GL белый", vacumCleanerPrice);
 
-          app.getItemCardPage()
-                  .buyItem();
+
           // Добавляем гарантию
           double warrantyVacuumPrice = app.getItemCardPage().choseWarranty(2);
+
+          app.getItemCardPage()
+                  .buyItem();
 
           vacuumCleaner.setAmount(1);
           vacuumCleaner.setWarranty(2);
@@ -51,10 +53,12 @@ public class FirstTest extends BaseTest {
           Item detroitItem = new Item("Игра Detroit: Стать человеком (PS4)", detroitPrice);
           detroitItem.setAmount(1);
 
-          // покупаем товар и пролучаем цену корзины
+          // покупаем товар и получаем цену корзины
           double cartPrice = app.getItemCardPage()
                   .buyItem()
                   .getCartPrice();
+          // Переходим на страничку корзины
+          app.getItemCardPage().redirectToCartPage();
 
           double price = vacuumCleaner.getPrice() * vacuumCleaner.getAmount() + vacuumCleaner.getWarrantyPrice()
                   +  detroitItem.getPrice() * detroitItem.getAmount() + detroitItem.getWarrantyPrice();
@@ -83,11 +87,14 @@ public class FirstTest extends BaseTest {
                   .addItem(vacuumCleaner.getName())
                   .getCartPrice();
 
-          Assert.assertTrue("цены не совпадают", threeVacuumPrice == 3 * (vacuumCleaner.getPrice() + vacuumCleaner.getWarranty()));
+          vacuumCleaner.addItem();
+          vacuumCleaner.addItem();
+
+          Assert.assertTrue("цены не совпадают", threeVacuumPrice == vacuumCleaner.getAmount() * (vacuumCleaner.getPrice() + vacuumCleaner.getWarrantyPrice()));
 
           double fullCartPrice = app.getCartPage()
-                  .restoreLasRemoved().getCartPrice();
-          Assert.assertTrue("цены не совпадают", fullCartPrice == detroitItem.getPrice() + 3 * (vacuumCleaner.getPrice() + vacuumCleaner.getWarranty()));
+                  .restoreLastRemoved().getCartPrice();
+          Assert.assertTrue("цены не совпадают", fullCartPrice == detroitItem.getPrice() + 3 * (vacuumCleaner.getPrice() + vacuumCleaner.getWarrantyPrice()));
 
      }
 }

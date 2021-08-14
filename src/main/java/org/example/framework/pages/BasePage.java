@@ -24,6 +24,15 @@ public class BasePage {
     @FindBy(xpath = "//nav[@class='header-bottom slide']//form//span[2]")
     private WebElement searchButton;
 
+    @FindBy(xpath = "//span[@class='cart-link__price']")
+    private WebElement cartBtn;
+
+    //сумма товаров в корзине (значок на корзине)
+    @FindBy(xpath = "//span[@class='cart-link__badge']")
+    WebElement cartSum;
+
+    protected static int countItems = 0;
+
 
     protected final DriverManager driverManager = DriverManager.getDriverManager();
 
@@ -61,21 +70,7 @@ public class BasePage {
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    /**
-     * Явное ожидание того что цена в корзине измениласть
-     *
-     * @param price - текущая цена корзины
-     */
-    protected void waitUtilPriceChanged(double price) {
-        while(getCartPrice() == price)
-        {
-            try {
-                wait(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
 
     //Найти товар и перейти на страницу с результатами поиска
     public SearchResultsPage searchForItem(String itemName){
@@ -88,5 +83,24 @@ public class BasePage {
     }
     public double getCartPrice(){
         return Double.parseDouble(cartPrice.getText().replaceAll("[^\\d.]", ""));
+    }
+
+    public CartPage redirectToCartPage(){
+        waitUtilElementToBeClickable(cartBtn);
+        cartBtn.click();
+        return pageManager.getCartPage();
+
+    }
+
+    protected WebElement scrollToElementJs(WebElement element) {
+        js.executeScript("arguments[0].scrollIntoView();", element);
+        return element;
+    }
+
+    public WebElement scrollWithOffset(WebElement element, int x, int y) {
+        String code = "window.scroll(" + (element.getLocation().x + x) + ","
+                + (element.getLocation().y + y) + ");";
+        ((JavascriptExecutor) driverManager.getDriver()).executeScript(code, element, x, y);
+        return element;
     }
 }

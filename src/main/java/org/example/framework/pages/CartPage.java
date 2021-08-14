@@ -6,9 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 // Корзина
 public class CartPage extends BasePage {
@@ -16,7 +15,7 @@ public class CartPage extends BasePage {
     @FindBy(xpath = "//div[@class='group-tabs']//span[@class='restore-last-removed']")
     WebElement restoreLastItem;         // кнопка чтобы вернуть удаленный товар
 
-    @FindBy(xpath = "//h1")
+    @FindBy(xpath = "//h1[@class='cart-title']")
     WebElement title;
 
     /**
@@ -25,7 +24,7 @@ public class CartPage extends BasePage {
      */
     public CartPage checkCartPageOpen(){
         waitUtilElementToBeVisible(title);
-        Assert.assertTrue("Заголовки не соответсвуют", title.getText() == "Корзина");
+        Assert.assertTrue("Заголовки не соответсвуют", title.getText().contains("Корзина"));
         return this;
     }
 
@@ -41,6 +40,8 @@ public class CartPage extends BasePage {
                         , itemName);
         WebElement addItemBtn = driverManager.getDriver().findElement(By.xpath(itemXpath));
         addItemBtn.click();
+        ++countItems;
+        wait.until(ExpectedConditions.textToBePresentInElement(cartSum, countItems + ""));
 
         return this;
     }
@@ -55,6 +56,9 @@ public class CartPage extends BasePage {
                 .format("//a[contains(text(), '%s')]/../../../../../..//button[contains(text(), 'Удалить')]", itemName);
         WebElement deleteBtn = driverManager.getDriver().findElement(By.xpath(itemXpath));
         deleteBtn.click();
+        --countItems;
+        wait.until(ExpectedConditions.textToBePresentInElement(cartSum, "" + countItems));
+
 
         return this;
 
@@ -70,13 +74,13 @@ public class CartPage extends BasePage {
      */
     public int getItemWarranty(String itemName){
         String itemXpath = String
-                .format("//a[contains(text(), '%s')]/../../../../../..//div[contains(@class, 'additional-warranties-row__warranty')]",
+                .format("//a[contains(text(), '%s')]/../../../../../..//div[contains(@class, 'additional-warranties-row__warranty')]/div/span",
                         itemName);
 
         List<WebElement> listRadios  = driverManager.getDriver().findElements(By.xpath(itemXpath));
         for(int i = 0; i < listRadios.size(); ++i)
         {
-            if(listRadios.get(i).isSelected())
+            if(listRadios.get(i).getAttribute("class").contains("checked"))
                 return i;
         }
         return 0;
@@ -92,16 +96,18 @@ public class CartPage extends BasePage {
                 .format("//a[contains(text(), '%s')]/../../../../..//span[@class='price__current']", itemName);
         WebElement price = driverManager.getDriver().findElement(By.xpath(itemXpath));
 
-        return Double.parseDouble(price.getText());
+        return Double.parseDouble(price.getText().replaceAll("[^\\d.]", ""));
     }
 
     /**
      * Вернуть последний удаленный товар
      * @return возвращаем ту же страничку
      */
-    public CartPage restoreLasRemoved(){
+    public CartPage restoreLastRemoved(){
 
-        restoreLastItem.click();
+        scrollWithOffset(restoreLastItem, 0, -300).click();
+        ++countItems;
+        wait.until(ExpectedConditions.textToBePresentInElement(cartSum, ""  + countItems));
 
         return pageManager.getCartPage();
     }
