@@ -1,5 +1,6 @@
 package org.example.framework.pages;
 
+import io.qameta.allure.Step;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -22,9 +23,10 @@ public class CartPage extends BasePage {
      * проверка того, что открылась корзина
      * @return возвращаем ту же странику
      */
+    @Step("Проверяем, что открылась корзина")
     public CartPage checkCartPageOpen(){
         waitUtilElementToBeVisible(title);
-        Assert.assertTrue("Заголовки не соответсвуют", title.getText().contains("Корзина"));
+        Assert.assertTrue("Мы не в корзине", title.getText().contains("Корзина"));
         return this;
     }
 
@@ -34,6 +36,7 @@ public class CartPage extends BasePage {
      * @param itemName название товара
      * @return возвращаем ту же странику
      */
+    @Step("Увеличиваем количества товара '{itemName}' на один (нажимаем на кнопку '+')")
     public CartPage addItem(String itemName){
         String itemXpath = String
                 .format("//a[contains(text(), '%s')]/../../../../../..//button[@class='count-buttons__button count-buttons__button_plus']/i"
@@ -51,6 +54,7 @@ public class CartPage extends BasePage {
      * @param itemName название товара
      * @return возвращаем ту же страничку
      */
+    @Step("Удаляем товар '{itemName}' из корзины")
     public CartPage deleteItem(String itemName){
         String itemXpath = String
                 .format("//a[contains(text(), '%s')]/../../../../../..//button[contains(text(), 'Удалить')]", itemName);
@@ -72,6 +76,7 @@ public class CartPage extends BasePage {
      * @param itemName название товара
      * @return количество лет доп гарантии
      */
+    @Step("Получаем количество лет дополнительной гарантии товара '{itemName}'")
     public int getItemWarranty(String itemName){
         String itemXpath = String
                 .format("//a[contains(text(), '%s')]/../../../../../..//div[contains(@class, 'additional-warranties-row__warranty')]/div/span",
@@ -91,6 +96,7 @@ public class CartPage extends BasePage {
      * @param itemName название товара
      * @return цена товара
      */
+    @Step("Получаем цену товара '{itemName}' в корзине")
     public double getItemPrice(String itemName){
         String itemXpath = String
                 .format("//a[contains(text(), '%s')]/../../../../..//span[@class='price__current']", itemName);
@@ -103,6 +109,7 @@ public class CartPage extends BasePage {
      * Вернуть последний удаленный товар
      * @return возвращаем ту же страничку
      */
+    @Step("Возвращаем последний удаленный из корзины товар")
     public CartPage restoreLastRemoved(){
 
         scrollWithOffset(restoreLastItem, 0, -300).click();

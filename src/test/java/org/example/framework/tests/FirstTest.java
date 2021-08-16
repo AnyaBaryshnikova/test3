@@ -1,5 +1,7 @@
 package org.example.framework.tests;
 
+import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import org.example.framework.Items.Item;
 import org.example.framework.basetest.BaseTest;
 import org.junit.Assert;
@@ -8,6 +10,7 @@ import org.junit.Test;
 public class FirstTest extends BaseTest {
 
      @Test
+     @DisplayName("Проверка dns-shop")
      public void startTest() {
           /*
           Переходим на главную страничку
@@ -63,6 +66,7 @@ public class FirstTest extends BaseTest {
           double price = vacuumCleaner.getPrice() * vacuumCleaner.getAmount() + vacuumCleaner.getWarrantyPrice()
                   +  detroitItem.getPrice() * detroitItem.getAmount() + detroitItem.getWarrantyPrice();
           Assert.assertEquals("Сумма в корзине и сумма покупок не равны", cartPrice, price, 0.0);
+          Assert.assertEquals("Сумма в корзине и сумма покупок не равны", cartPrice, price, 0.0);
 
           int vacuumWarranty = app.getCartPage()
                   .checkCartPageOpen()
@@ -79,12 +83,15 @@ public class FirstTest extends BaseTest {
 
           double newCartPrice = app.getCartPage()
                   .deleteItem(detroitItem.getName())
+                  .checkCartPageOpen()
                   .getCartPrice();
           Assert.assertTrue("Цены не совпадают", newCartPrice == cartPrice - detroitItem.getPrice());
 
           double threeVacuumPrice = app.getCartPage()
                   .addItem(vacuumCleaner.getName())
+                  .checkCartPageOpen()
                   .addItem(vacuumCleaner.getName())
+                  .checkCartPageOpen()
                   .getCartPrice();
 
           vacuumCleaner.addItem();

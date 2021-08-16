@@ -1,5 +1,6 @@
 package org.example.framework.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,15 +22,11 @@ public class ItemCardPage extends BasePage {
     @FindBy(xpath = "//div[@class='product-card-top__buy']//button[contains(text(), 'Купить')]")
     private WebElement buyBtn;
 
-
-
-
-
-
     /**
      * Получить цену товара
      * @return цена
      */
+    @Step("Получаем цену товара со страницы - карточка товара")
     public double getItemPrice(){
         //waitUtilElementToBeVisible(itemPrice);
         double price = 0;
@@ -45,6 +42,7 @@ public class ItemCardPage extends BasePage {
      *              Если years больше двух то дополнительная гарантия не выбирается)
      * @return  цена гарантии
      */
+    @Step("Выбираем для товара дополнительную гарантию: '{years + 1}' года")
     public double choseWarranty(int years){
 
         if(years > 2 | years < 0)
@@ -70,6 +68,7 @@ public class ItemCardPage extends BasePage {
      * Купить товар
      * @return возвращаем ту же страничку
      */
+    @Step("Нажимаем кнопочку купить товар на странице - карточка товара")
     public ItemCardPage buyItem(){
 
         buyBtn.click();

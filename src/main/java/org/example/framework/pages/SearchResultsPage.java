@@ -1,5 +1,6 @@
 package org.example.framework.pages;
 
+import io.qameta.allure.Step;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -15,9 +16,10 @@ public class SearchResultsPage extends BasePage {
      * проверка того, что открылась страничка с резулььаьами поиска
      * @return возвращаем ту же странику
      */
+    @Step("Проверяем, что оказались на странице с результатами поиска")
     public SearchResultsPage checkSearchPageOpen(){
         waitUtilElementToBeVisible(title);
-        Assert.assertTrue("Заголовки не соответсвуют", title.getText().contains("Найдено:"));
+        Assert.assertTrue("Мы не на странице с результатами поиска", title.getText().contains("Найдено:"));
         return this;
     }
 
@@ -27,6 +29,7 @@ public class SearchResultsPage extends BasePage {
      * @param itemName Название товара
      * @return страничка -- карточка товара
      */
+    @Step("Ищем на странице с результатами поиска необходимый товар из всех представленных и кликаем на него")
     public ItemCardPage redirectToItemPage(String itemName){
 
         String elementXPath = String.format("//span[contains(text(), '%s')]", itemName);

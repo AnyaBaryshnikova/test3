@@ -1,5 +1,6 @@
 package org.example.framework.pages;
 
+import io.qameta.allure.Step;
 import org.example.framework.managers.DriverManager;
 import org.example.framework.managers.PageManager;
 import org.example.framework.managers.TestPropManager;
@@ -71,8 +72,12 @@ public class BasePage {
     }
 
 
-
-    //Найти товар и перейти на страницу с результатами поиска
+    /**
+     * Поиск товара через строку поиска
+     * @param itemName название товара
+     * @return возвращаем страничку с результатими поиска
+     */
+    @Step("Ищем товар '{itemName}' в строке поиска")
     public SearchResultsPage searchForItem(String itemName){
 
         searchLine.click();
@@ -81,10 +86,17 @@ public class BasePage {
 
         return pageManager.getSearchResultsPage();
     }
+
+    @Step("Получаем цену корзины")
     public double getCartPrice(){
         return Double.parseDouble(cartPrice.getText().replaceAll("[^\\d.]", ""));
     }
 
+    /**
+     * Переход в корзину
+     * @return возвращаем страничку корзины
+     */
+    @Step("Переходим в корзину")
     public CartPage redirectToCartPage(){
         waitUtilElementToBeClickable(cartBtn);
         cartBtn.click();

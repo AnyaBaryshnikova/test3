@@ -1,5 +1,6 @@
 package org.example.framework.managers;
 
+import io.qameta.allure.Step;
 import org.example.framework.pages.BasePage;
 import org.example.framework.pages.CartPage;
 import org.openqa.selenium.WebElement;
@@ -11,6 +12,7 @@ public class MainPage extends BasePage {
 
     @FindBy(xpath = "//a[@class='btn btn-additional']")
     WebElement cityBtn;
+    @Step("Выбираем город")
     public MainPage closeCity(){
 
         cityBtn.click();
