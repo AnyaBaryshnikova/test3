@@ -4,19 +4,19 @@ package org.example.framework.utils;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.junit4.AllureJunit4;
 import org.example.framework.managers.DriverManager;
-import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.runner.notification.Failure;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
-public class MyAllureListner extends AllureJunit4 implements AfterTestExecutionCallback{
+import static io.qameta.allure.util.ResultsUtils.getStatus;
+import static io.qameta.allure.util.ResultsUtils.getStatusDetails;
 
+public class MyAllureListner extends AllureJunit4 {
 
     @Override
-    public void afterTestExecution(ExtensionContext extensionContext) throws Exception {
-        if(extensionContext.getExecutionException().isPresent()){
-            addScreen();
-        }
+    public void testFailure(final Failure failure) {
+        addScreen();
+        super.testFailure(failure);
     }
 
     @Attachment(value = "screenshot", type = "image/png")

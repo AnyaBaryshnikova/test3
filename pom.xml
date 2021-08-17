@@ -49,12 +49,6 @@
             <artifactId>allure-junit4</artifactId>
             <version>${allure-junit4}</version>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.7.1</version>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -92,7 +86,7 @@
                     <properties>
                         <property>
                             <name>listener</name>
-                            <value>org/example/framework/utils/MyAllureListner.java</value>
+                            <value>org.example.framework.utils.MyAllureListner</value>
                         </property>
                     </properties>
                 </configuration>

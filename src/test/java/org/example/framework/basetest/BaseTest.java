@@ -9,11 +9,9 @@ import org.example.framework.utils.MyAllureListner;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.example.framework.utils.Constants.BASE_URL;
 
-@ExtendWith(MyAllureListner.class)
 public class BaseTest {
 
     /**
