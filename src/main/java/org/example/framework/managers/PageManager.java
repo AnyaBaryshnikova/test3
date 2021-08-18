@@ -2,6 +2,7 @@ package org.example.framework.managers;
 
 import org.example.framework.pages.CartPage;
 import org.example.framework.pages.ItemCardPage;
+import org.example.framework.pages.MainPage;
 import org.example.framework.pages.SearchResultsPage;
 
 public class PageManager {

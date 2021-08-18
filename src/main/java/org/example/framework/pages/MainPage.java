@@ -1,8 +1,6 @@
-package org.example.framework.managers;
+package org.example.framework.pages;
 
 import io.qameta.allure.Step;
-import org.example.framework.pages.BasePage;
-import org.example.framework.pages.CartPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
